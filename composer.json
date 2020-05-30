@@ -1,0 +1,35 @@
+{
+    "name": "remotelyliving/php-collection",
+    "description": "An immutable collection object for object oriented set operations",
+    "keywords": ["php", "collection", "map", "array"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Thomas",
+            "email": "christian.h.thomas@me.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "maglnet/composer-require-checker": "^2.0",
+        "squizlabs/php_codesniffer": "^3.3",
+        "php-coveralls/php-coveralls": "^2.2",
+        "vimeo/psalm": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "RemotelyLiving\\PHPCollection\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RemotelyLiving\\PHPCollection\\Tests\\" : "tests/"
+        }
+    }
+}
