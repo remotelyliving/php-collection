@@ -15,22 +15,48 @@ class CollectionTest extends AbstractTestCase
         $this->assertIsIterable($collection);
     }
 
-    public function testSortsInputValuesByIntegerKey(): void
+    public function testSortsItemKeysByInteger(): void
     {
         $list = [2 => 3, 1 => 2, 0 => 1];
         $expected = [1, 2, 3];
         $collection = Collection::collect($list);
 
-        $this->assertEquals($expected, $collection->all());
+        $this->assertEquals($expected, $collection->kSort()->values());
+        $this->assertEquals($list, $collection->all());
     }
 
-    public function testSortsInputValuesByStringKey(): void
+    public function testSortsItemKeysByString(): void
     {
-        $list = ['b' => 3, 'a' => 2, 'c' => 1];
-        $expected = ['a' => 2, 'b' => 3, 'c' => 1];
+        $list = ['c' => 'baz', 'a' => 'foo', 'b' => 'bar'];
+        $expected = ['foo', 'bar', 'baz'];
         $collection = Collection::collect($list);
 
-        $this->assertEquals($expected, $collection->all());
+        $this->assertEquals($expected, $collection->kSort()->values());
+        $this->assertEquals($list, $collection->all());
+    }
+
+    public function testSortsItems(): void
+    {
+        $object1 = new \stdClass();
+        $object1->foo = 'a';
+
+        $object2 = new \stdClass();
+        $object2->foo = 'g';
+
+        $object3 = new \stdClass();
+        $object3->foo = 'z';
+
+        $integerList = [3, 4, 5, 1, 2];
+        $stringList = ['a', 'z', 'b', 'd'];
+        $objectList = ['foo' => $object3, 'bar' => $object2, 'baz' => $object1];
+
+        $expectedIntegerList = [1, 2, 3, 4, 5];
+        $expectedStringList = ['a', 'b', 'd', 'z'];
+        $expectedObjectList = ['baz' => $object1, 'bar' => $object2, 'foo' => $object3];
+
+        $this->assertSame($expectedObjectList, Collection::collect($objectList)->sort()->all());
+        $this->assertEquals($expectedStringList, Collection::collect($stringList)->sort()->values());
+        $this->assertEquals($expectedIntegerList, Collection::collect($integerList)->sort()->values());
     }
 
     public function testTraversesWithoutNeedingToRewind(): void
@@ -240,7 +266,7 @@ class CollectionTest extends AbstractTestCase
     public function testGetsAllWithoutKeys(): void
     {
         $this->assertSame([], Collection::collect([])->all());
-        $this->assertSame([2, 1, 3], Collection::collect([123 => 1, 'b' => 2, 321 => 3])->values());
+        $this->assertSame([1, 2, 3], Collection::collect([123 => 1, 'b' => 2, 321 => 3])->values());
     }
 
     public function testKnowsIfEqualsOtherCollection(): void

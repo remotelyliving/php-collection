@@ -42,6 +42,10 @@ interface CollectionInterface extends \Traversable, \Countable, \IteratorAggrega
 
     public function intersect(Collection $collection): self;
 
+    public function sort(callable $comparator = null): self;
+
+    public function kSort(callable $comparator = null): self;
+
     public function empty(): bool;
 
     public function all(): array;

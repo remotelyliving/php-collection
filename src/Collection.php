@@ -18,7 +18,6 @@ final class Collection implements CollectionInterface
     public static function collect(array $items = []): self
     {
         self::validateItems($items);
-        ksort($items);
 
         return new static($items);
     }
@@ -136,6 +135,22 @@ final class Collection implements CollectionInterface
         return new self(array_intersect($this->all(), $collection->all()));
     }
 
+    public function sort(callable $comparator = null): self
+    {
+        $items = $this->all();
+        uasort($items, $comparator ?? self::getObjectSafeComparator());
+
+        return new self($items);
+    }
+
+    public function kSort(callable $comparator = null): self
+    {
+        $items = $this->all();
+        uksort($items, $comparator ?? self::getStringComparator());
+
+        return new self($items);
+    }
+
     public function empty(): bool
     {
         return $this->count() === 0;
@@ -144,10 +159,7 @@ final class Collection implements CollectionInterface
     public function all(): array
     {
         if (isset($this->deferredValues) && $this->deferredValues->valid()) {
-            $unwrapped = $this->unwrapDeferred();
-            ksort($unwrapped);
-
-            $this->items = $unwrapped;
+            $this->items = $this->unwrapDeferred();
         }
 
         return $this->items;
@@ -285,14 +297,17 @@ final class Collection implements CollectionInterface
         }
     }
 
+    private static function getStringComparator(): callable
+    {
+        return function ($a, $b): int {
+            return strcmp((string) $a, (string) $b);
+        };
+    }
+
     private static function getObjectSafeComparator(): callable
     {
         return function ($a, $b): int {
-            if (\gettype($a) === \gettype($b)) {
-                return $a <=> $b;
-            }
-
-            return -1;
+            return (\gettype($a) === \gettype($b)) ? $a <=> $b : -1;
         };
     }
 }
