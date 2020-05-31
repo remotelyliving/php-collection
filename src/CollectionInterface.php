@@ -89,10 +89,4 @@ interface CollectionInterface extends \Traversable, \Countable, \IteratorAggrega
      * @param string|int ...$offset
      */
     public function remove(...$offset): self;
-
-    public function getIterator(): \ArrayIterator;
-
-    public function serialize(): string;
-
-    public function unserialize($serialized, array $classnames = []);
 }
