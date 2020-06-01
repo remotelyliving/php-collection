@@ -2,7 +2,6 @@
 [![Total Downloads](https://poser.pugx.org/remotelyliving/php-collection/downloads)](https://packagist.org/packages/remotelyliving/php-collection)
 [![Coverage Status](https://coveralls.io/repos/github/remotelyliving/php-collection/badge.svg?branch=master)](https://coveralls.io/github/remotelyliving/php-collection?branch=master) 
 [![License](https://poser.pugx.org/remotelyliving/php-collection/license)](https://packagist.org/packages/remotelyliving/php-collection)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/remotelyliving/php-collection/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/remotelyliving/php-collection/?branch=master)
 
 # php-collection
 ### A lightweight, immutable collection object for set operations

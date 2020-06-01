@@ -130,6 +130,33 @@ class CollectionTest extends AbstractTestCase
         $this->assertEquals($list, $collection->values());
     }
 
+    public function testRekeysTheCollection(): void
+    {
+        $expected = [1, 5, 10, 100, 123, 32, 0, -1];
+        $list = [1 => 1, 10 => 5, 11 => 10, 3 => 100, 5 => 123, 6 => 32, 7 => 0, -2 => -1];
+        $collection = Collection::collect($list);
+        $rekeyed = $collection->reIndex();
+
+        $this->assertSame($expected, $rekeyed->all());
+        $this->assertEquals($list, $collection->all());
+    }
+
+    public function testChunks(): void
+    {
+        $expected = ['a:0', 'b:1', 'c:2', 'd:3', 'e:4','f:5', 'g:6'];
+        $list = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+        $collection = Collection::collect($list);
+        $chunked = $collection->chunk(
+            2,
+            function (string $val, int $index) use (&$chunkCount): string {
+                return "{$val}:{$index}";
+            }
+        );
+
+        $this->assertSame($expected, $chunked->all());
+        $this->assertEquals($list, $collection->all());
+    }
+
     public function testIteratesImmutably(): void
     {
         $list = [3, 2, 1];

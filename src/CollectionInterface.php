@@ -12,7 +12,11 @@ interface CollectionInterface extends \Traversable, \Countable, \IteratorAggrega
 
     public function each(callable $fn): self;
 
+    public function chunk(int $size, callable $fn): self;
+
     public function reverse(): self;
+
+    public function reIndex(): self;
 
     /**
      * @return mixed|null

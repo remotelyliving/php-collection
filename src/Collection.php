@@ -165,6 +165,25 @@ final class Collection implements CollectionInterface
         return $this->items;
     }
 
+    public function reIndex(): self
+    {
+        return new self($this->values());
+    }
+
+    public function chunk(int $size, callable $fn): self
+    {
+        $deferred = function () use ($size, $fn) {
+            foreach (array_chunk($this->all(), $size, true) as $chunk) {
+                foreach ($chunk as $index => $value) {
+                    yield $index => $fn($value, $index);
+                }
+            }
+        };
+
+        // do the work later and revalidate processed values
+        return self::later($deferred());
+    }
+
     public function deferred(): \Generator
     {
         foreach ($this->all() as $key => $value) {
