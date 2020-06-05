@@ -38,13 +38,13 @@ interface CollectionInterface extends \Traversable, \Countable, \IteratorAggrega
 
     public function unique(): self;
 
-    public function diff(Collection $collection): self;
+    public function diff(CollectionInterface $collection): self;
 
-    public function merge(Collection $collection): self;
+    public function merge(CollectionInterface $collection): self;
 
-    public function union(Collection $collection): self;
+    public function union(CollectionInterface $collection): self;
 
-    public function intersect(Collection $collection): self;
+    public function intersect(CollectionInterface $collection): self;
 
     public function sort(callable $comparator = null): self;
 
@@ -58,7 +58,7 @@ interface CollectionInterface extends \Traversable, \Countable, \IteratorAggrega
 
     public function values(): array;
 
-    public function equals(Collection $collection): bool;
+    public function equals(CollectionInterface $collection): bool;
 
     /**
      * @param string|int $offset
@@ -92,5 +92,25 @@ interface CollectionInterface extends \Traversable, \Countable, \IteratorAggrega
     /**
      * @param string|int ...$offset
      */
-    public function remove(...$offset): self;
+    public function unset(...$offset): self;
+
+    /**
+     * @param string|int $offset
+     * @param mixed $value
+     *
+     * @return $this
+     */
+    public function set($offset, $value): self;
+
+    /**
+     * @param mixed $value
+     */
+    public function push($value): self;
+
+    /**
+     * @param mixed $values
+     *
+     * @return $this
+     */
+    public function unshift(...$value): self;
 }
